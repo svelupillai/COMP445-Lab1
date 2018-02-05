@@ -11,11 +11,12 @@ def get(url,v):
   # 2: Connect to the server at port 80
   listener.connect((url.hostname, 80))
   # 3: using GET to request from the server and \r\n\r\n to send the request
-  req = "GET" + url.path + "?" + url.query + " HTTP/1.0\r\n\r\n"
+  req = "GET" + url.path + "?" + url.query + " HTTP/1.1\r\nHost: " + url.hostname + "\r\n\r\n" 
   # 4: send out the request
   listener.sendall(req.encode("utf-8"))
   response = listener.recv(4096).decode("utf-8")
   #5: a response variable receives the response at post 1024
+  print(req)
   print(response)
   print(v)
   #If the request is a verbose type, include the 9 first lines which is the header info included in a verbose request
