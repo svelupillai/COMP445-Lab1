@@ -11,7 +11,7 @@ def get(url,v):
   # 2: Connect to the server at port 80
   listener.connect((url.hostname, 80))
   # 3: using GET to request from the server and \r\n\r\n to send the request
-  req = "GET" + url.path + "?" + url.query + " HTTP/1.1\r\nHost: " + url.hostname + "\r\n\r\n" 
+  req = "GET " + url.path + "?" + url.query + " HTTP/1.1\r\nHost: " + url.hostname + "\r\n\r\n"
   # 4: send out the request
   listener.sendall(req.encode("utf-8"))
   response = listener.recv(4096).decode("utf-8")
@@ -36,7 +36,7 @@ def post(url, header, data, v):
   # use urlparse to extract the hostname from the url
   url = urlparse(url)
   listener.connect(url.hostname, 80)
-  req = "POST" + url.path + " HTTP/1.1" + "\r\n" + "Host: " + url.hostname + "\r\n" + header + "\r\n" + "Content-Length: " + str(len(data)) + "\r\n" + "\r\n" + data
+  req = "POST " + url.path + " HTTP/1.1" + "\r\n" + "Host: " + url.hostname + "\r\n" + header + "\r\n\r\n" + "Content-Length: " + str(len(data)) + "\r\n" + "\r\n" + data
   # 4: send out the request
   listener.sendall(req.encode("utf-8"))
   response = listener.recv(4096).decode("utf-8")
