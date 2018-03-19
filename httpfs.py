@@ -3,7 +3,7 @@ import argparse
 import os
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-v', help ='Prints debugging messages.', type = str)
+parser.add_argument('-v', help ='Prints debugging messages.', action='store_true')
 parser.add_argument('-p', '--port', help = 'Specifies the port number that the server will listen and serve at. Default is 8080', type = int)
 parser.add_argument('-d', '--directory', '-PATH-TO-DIR', help = 'Specifies the directory that the server will use to read/write requested files. Default is the current directory when launching the application.', type = str)
 args = parser.parse_args()
@@ -58,15 +58,18 @@ while True:
                 response = fileSpecific.read()
                 fileSpecific.close()
             else:
-                response = "404"
+                response = "The file does not exist on the directory specified."
     elif getVsPost == 'POST':
+        response = path[1]
         # write to file (only if it's in the fileList, else 403)
         if path[1:] in fileList:
             fileSpecific = open(localPath + path, 'w')
             fileSpecific.write(data)
             fileSpecific.close()
         else:
-            response = "403"
+            fileSpecific = open(localPath + path, 'w')
+            fileSpecific.write(data)
+            fileSpecific.close()
 
     # send response
     connection.sendall(bytes(response, "utf-8"))
