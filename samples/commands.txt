@@ -1,0 +1,27 @@
+httpfs : 
+
+#start the server
+httpfs.py
+
+#add logs
+httpfs.py -v
+
+#specify port
+httpfs.py -v -p 8888 
+
+#specify directory
+httpfs.py -v -p 8888 -d samples
+
+Curl:
+
+# list of files
+curl -get localhost:8888/
+
+#contents in file
+curl -get localhost:8888/afile.txt
+
+#rewrite file
+curl -post -d "rwrite" localhost:8888/afile.txt
+
+#new file
+cirl -post -d "new" localhost:8888/newfile.txt
