@@ -52,13 +52,13 @@ while True:
             for file in fileList:
                 response += file + "\n"
         else:
-            # display contents of file (only if it's in the fileList, else 404)
+            # display contents of file (only if it's in the fileList, else 403)
             if path[1:] in fileList:
                 fileSpecific = open(localPath + path, 'r')
                 response = fileSpecific.read()
                 fileSpecific.close()
             else:
-                response = "The file does not exist on the directory specified."
+                response = "\n" +"404 - You do not have access to read this file."
     elif getVsPost == 'POST':
         response = path[1]
         # write to file (only if it's in the fileList, else 403)
@@ -66,10 +66,12 @@ while True:
             fileSpecific = open(localPath + path, 'w')
             fileSpecific.write(data)
             fileSpecific.close()
+            response = "Posted into existing file"
         else:
             fileSpecific = open(localPath + path, 'w')
             fileSpecific.write(data)
             fileSpecific.close()
+            response = "Posted into new file"
 
     # send response
     connection.sendall(bytes(response, "utf-8"))
